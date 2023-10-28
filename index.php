@@ -10,8 +10,7 @@ header('Access-Control-Allow-Credentials: true') ; // Sending cookies is accepta
 
 $uri = explode('/', $uri) ; // Take the uri string and break it into an array that can be worked with
 if ($uri[3] == 'user'){ // Time to do user related stuff!
-    require PROJECT_ROOT_PATH . 'UserController.php' ; // Bring in all relevant functions
-
+    require 'UserController.php' ; // Bring in all relevant functions
     $objUserController = new UserController() ; // Instantiate UserController instance
     $strMethodName = $uri[4] . 'Action' ; // Set up to execute the relevant method
     $objUserController->{$strMethodName}() ; // Execute it!
