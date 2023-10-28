@@ -2,7 +2,7 @@
 class Database{
     protected $connection = null;
     public function __construct(){
-        $this->connection = new mysqli(servername, username, password, dbname);			
+        $this->connection = new mysqli("localhost","root","","music_db");			
     }
     public function select($query = "" , $params = []){
         $stmt = $this->executeStatement( $query , $params );

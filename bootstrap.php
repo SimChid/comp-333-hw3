@@ -6,4 +6,6 @@
     require_once PROJECT_ROOT_PATH . "/BaseController.php";
     // include the use model file 
     require_once PROJECT_ROOT_PATH . "/UserModel.php";
+    // include the song model file 
+    require_once PROJECT_ROOT_PATH . "/SongModel.php";
 ?>
