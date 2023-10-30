@@ -19,24 +19,32 @@ class SongController extends BaseController{
     public function createAction(){
         $requestMethod = $_SERVER['REQUEST_METHOD'];
         if (strtoupper($requestMethod) == 'POST'){
-            $songModel = new SongModel();
-            $songModel->createSong($_POST); //too few arguments
+            $requestData = json_decode(file_get_contents("php://input"), true); //decoding json request
+            $username = $requestData['username']; // acquiring values
+            $artist = $requestData['artist'];
+            $song = $requestData['song'];
+            $rating = $requestData['rating'];
+
+            $songModel = new SongModel(); // create new model to execute
+            $songModel->createSong($username,$artist,$song,$rating); // add song to database
         }
     }
 
     public function updateAction(){
         $requestMethod = $_SERVER['REQUEST_METHOD'];
-        if (strtoupper($requestMethod) == 'PUT'){
+        if (strtoupper($requestMethod) == 'GET'){
             $songModel = new SongModel();
-            $songModel->updateSong($_PUT); //unsure what variable to put here
+            $songModel->updateSong($_GET); //unsure what variable to put here
         }
     }
 
     public function deleteAction(){
         $requestMethod = $_SERVER['REQUEST_METHOD'];
-        if (strtoupper($requestMethod) == 'DELETE'){
+        if (strtoupper($requestMethod) == 'GET'){
+            $requestData = json_decode(file_get_contents("php://input"), true);
+            $id = $requestData['id'];
             $songModel = new SongModel();
-            $songModel->deleteSong($_DELETE); //unsure what variable to put here
+            $songModel->deleteSong($id); //unsure what variable to put here
         }
     }
 }

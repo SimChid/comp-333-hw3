@@ -31,7 +31,9 @@ class SongModel extends Database {
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param('i',$id);
         $stmt->execute();
-        //this isn't done  
+        if ($stmt->affected_rows==1){
+            //keeping this empty temporarily
+        }
     }
     public function deleteSong($id){
         $sql = "DELETE FROM ratings WHERE id = ?";
