@@ -16,6 +16,13 @@ class SongController extends BaseController{
             $songModel->enumerateSongs() ; // Enumerate the songs
         }
     }
+    public function createAction(){
+        $requestMethod = $_SERVER['REQUEST_METHOD'];
+        if (strtoupper($requestMethod) == 'POST'){
+            $songModel = new SongModel();
+            $songModel->createSong($_POST);
+        }
+    }
 }
 
 ?>

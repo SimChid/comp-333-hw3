@@ -17,6 +17,15 @@ class SongModel extends Database {
         echo json_encode($rows) ; // output the output
         $conn->close();  // clean up 
     }
+    public function createSong($username,$artist,$song,$rating){ // Define the function to add a song to database
+        $sql = "INSERT INTO ratings (username,artist,song,rating) VALUES (?,?,?,?)";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param('sssi',$username,$artist,$song,$rating);
+        $stmt->execute();
+        if ($stmt->affected_rows == 1){
+            echo 'Song Added';
+        }
+    }
 }
 
 ?>
