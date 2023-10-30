@@ -26,13 +26,25 @@ class SongModel extends Database {
             echo 'Song Added';
         }
     }
-    public function updateSong($id){
+    public function readSong($_ID){
         $sql = "SELECT * FROM ratings WHERE id = ?";
         $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param('i',$id);
+        $stmt->bind_param('i',$_ID);
         $stmt->execute();
-        if ($stmt->affected_rows==1){
-            //keeping this empty temporarily
+        $stmt->bind_result($id,$username,$artist,$song,$rating);
+        if ($stmt->affected_rows == 1){
+            echo $artist;
+            echo $song;
+            echo $rating;
+        }
+    }
+    public function updateSong($id,$artist,$song,$rating){
+        $sql = "UPDATE ratings SET artist = ?, song = ?, rating = ? WHERE id = ?";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param('ssii',$artist,$song,$rating,$id);
+        $stmt->execute();
+        if ($stmt->affected_rows == 1){
+            echo 'Song Updated';
         }
     }
     public function deleteSong($id){

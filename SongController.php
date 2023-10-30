@@ -30,11 +30,28 @@ class SongController extends BaseController{
         }
     }
 
-    public function updateAction(){
+    public function readAction(){
         $requestMethod = $_SERVER['REQUEST_METHOD'];
         if (strtoupper($requestMethod) == 'GET'){
+            $requestData = json_decode(file_get_contents("php://input"),true);
+            $_ID = $requestData['id'];
+            
             $songModel = new SongModel();
-            $songModel->updateSong($_GET); //unsure what variable to put here
+            $songModel->readSong($_ID);
+        }
+    }
+
+    public function updateAction(){
+        $requestMethod = $_SERVER['REQUEST_METHOD'];
+        if (strtoupper($requestMethod) == 'POST'){
+            $requestData = json_decode(file_get_contents("php://input"), true);
+            $id = $requestData['id'];
+            $artist = $requestData['artist'];
+            $song = $requestData['song'];
+            $rating = $requestData['rating'];
+
+            $songModel = new SongModel();
+            $songModel->updateSong($id,$artist,$song,$rating); //unsure what variable to put here
         }
     }
 
