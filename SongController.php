@@ -20,7 +20,23 @@ class SongController extends BaseController{
         $requestMethod = $_SERVER['REQUEST_METHOD'];
         if (strtoupper($requestMethod) == 'POST'){
             $songModel = new SongModel();
-            $songModel->createSong($_POST);
+            $songModel->createSong($_POST); //too few arguments
+        }
+    }
+
+    public function updateAction(){
+        $requestMethod = $_SERVER['REQUEST_METHOD'];
+        if (strtoupper($requestMethod) == 'PUT'){
+            $songModel = new SongModel();
+            $songModel->updateSong($_PUT); //unsure what variable to put here
+        }
+    }
+
+    public function deleteAction(){
+        $requestMethod = $_SERVER['REQUEST_METHOD'];
+        if (strtoupper($requestMethod) == 'DELETE'){
+            $songModel = new SongModel();
+            $songModel->deleteSong($_DELETE); //unsure what variable to put here
         }
     }
 }
