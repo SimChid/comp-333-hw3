@@ -13,8 +13,29 @@ class UserController extends BaseController{
         $requestMethod = $_SERVER['REQUEST_METHOD'] ;
         
         if (strtoupper($requestMethod) == 'POST'){ // If we're POSTing (creating a new user)
-            $userModel = new UserModel() ; // Create a UserModel to do the SQL query
-            $userModel->createUser($_POST) ; // Create the user
+            $requestData = json_decode(file_get_contents("php://input"),true); // Decode json request
+            $username = $requestData['username']; //set data to variables
+            $p1 = $requestData['p1'];
+            $p2 = $requestData['p2'];
+            if ($p1 != $p2){
+                echo "Passwords must match";
+            }else{
+                $h_password = password_hash($p1, PASSWORD_DEFAULT);
+                $userModel = new UserModel() ; // Create a UserModel to do the SQL query
+                $userModel->createUser($username,$h_password) ; // Create the user
+            }
+        }
+    }
+
+    public function readAction(){
+        $requestMethod = $_SERVER['REQUEST_METHOD'];
+
+        if (strtoupper($requestMethod) == 'GET'){
+            $requestData = json_decode(file_get_contents("php://input"),true);
+            $username = $requestData['username'];
+            $password = $requestData['password'];
+            $userModel = new UserModel();
+            $userModel->readUser($username,$password);
         }
     }
 }
