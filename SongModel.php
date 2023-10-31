@@ -18,11 +18,20 @@ class SongModel extends Database {
         $conn->close();  // clean up 
     }
     public function createSong($username,$artist,$song,$rating){ // Define the function to add a song to database
-        $sql = "INSERT INTO ratings (username,artist,song,rating) VALUES (?,?,?,?)";
+        $sql = "SELECT * FROM ratings WHERE username = ? AND artist = ? AND song = ?";
         $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param('sssi',$username,$artist,$song,$rating);
+        $stmt->bind_param('sss',$username,$artist,$song);
         $stmt->execute();
-        if ($stmt->affected_rows == 1){
+        $result = mysqli_stmt_get_result($stmt) ;
+        $num = mysqli_num_rows($result) ;
+        // User cannot rate the same song twice
+        if ($num > 0){
+            echo "Cannot rate the same song twice" ;
+        } else {
+            $sql2 = "INSERT INTO ratings (username,artist,song,rating) VALUES (?,?,?,?)";
+            $stmt2 = $this->connection->prepare($sql2);
+            $stmt2->bind_param('sssi',$username,$artist,$song,$rating);
+            $stmt2->execute();
             echo 'Song Added';
         }
     }

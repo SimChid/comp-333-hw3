@@ -24,9 +24,16 @@ class SongController extends BaseController{
             $artist = $requestData['artist'];
             $song = $requestData['song'];
             $rating = $requestData['rating'];
-
-            $songModel = new SongModel(); // create new model to execute
-            $songModel->createSong($username,$artist,$song,$rating); // add song to database
+            if (!empty($artist) && !empty($song) && !empty($rating)){
+                if (strlen($rating) == 1 && is_numeric($rating) && $rating < 6 && $rating > 0){
+                    $songModel = new SongModel(); // create new model to execute
+                    $songModel->createSong($username,$artist,$song,$rating); // add song to database
+                }else{
+                    echo "Enter a rating between 1 and 5";
+                }
+            }else{
+                echo "Please fill out all fields";
+            }
         }
     }
 
@@ -49,9 +56,16 @@ class SongController extends BaseController{
             $artist = $requestData['artist'];
             $song = $requestData['song'];
             $rating = $requestData['rating'];
-
-            $songModel = new SongModel();
-            $songModel->updateSong($id,$artist,$song,$rating); //unsure what variable to put here
+            if (!empty($artist) && !empty($song) && !empty($rating)){
+                if (strlen($rating) == 1 && is_numeric($rating) && $rating < 6 && $rating > 0){
+                    $songModel = new SongModel();
+                    $songModel->updateSong($id,$artist,$song,$rating);
+                }else{
+                    echo "Enter a rating between 1 and 5";
+                }
+            }else{
+                echo "Make sure all fields are filled out";
+            }
         }
     }
 
