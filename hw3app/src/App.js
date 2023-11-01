@@ -21,8 +21,7 @@ function Enumerate() {
       <table>
         <tr><th>User</th><th>Song</th><th>Artist</th><th>Rating</th><th>Actions</th></tr>
         {myData.map((item) => (<tr key={item.id}><td>{item.username}</td> <td>{item.song}</td> <td>{item.artist}</td> <td>{item.rating}</td></tr>))}
-      </table><br />
-      
+      </table>
     </div>
     
     

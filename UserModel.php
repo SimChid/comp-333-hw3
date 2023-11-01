@@ -17,14 +17,14 @@ class UserModel extends Database {
         $row = mysqli_fetch_assoc($result);
         $num = mysqli_num_rows($result);
         if ($num > 0){
-            echo 'Username already exists' ; //user already exists
+            echo json_encode('Username already exists') ; //user already exists
         }
         else{
-            $sql2 = "INSERT INTO users VALUES (?,?)";
+            $sql2 = "INSERT INTO users (username,password) VALUES (?,?)";
             $stmt2 = $this->connection->prepare($sql2);
             $stmt2->bind_param('ss',$username,$password);
             $stmt2->execute(); //Insert into table!
-            echo 'user created';
+            echo json_encode('user created');
         }
     }
     public function readUser($username,$password){
@@ -35,14 +35,15 @@ class UserModel extends Database {
         $result = mysqli_stmt_get_result($stmt);
 
         $arr = mysqli_fetch_assoc($result);
-        $pass_check = $arr['password'];
+        //$pass_check = $arr['password'];
         $num = mysqli_num_rows($result);
         
         if($num > 0 && password_verify($password, $pass_check)){
             echo "login success";
         }
         else{
-            echo "wrong username or password";
+            var_dump($arr) ;
+            //echo "wrong username or password";
         }
     }
 }

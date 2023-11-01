@@ -1,29 +1,75 @@
-import ReactDOM from "react-dom/client";
-import React from 'react';
+import React from "react";
+import axios from "axios";
 
 class LogIn extends React.Component{
+  constructor(props){
+    super(props) ;
+    this.state = {username : "aaron",password : "",loggedIn : false} ;
+  }
+  
+  mySubmitHandler = (event) => {
+    event.preventDefault() ;
+    axios.get("http://localhost/comp-333-hw3/index.php/user/read",{username : this.state.username, password : this.state.password}).then((response) => {
+      console.log(response.data) ;
+      // Determine if they are logged in or not based on the output.
+      // Return the corresponding message.
+    }).catch((error) => console.log(error)) ;
+  } ;
+  myChangeUsername = (event) => {
+    this.setState({username: event.target.value}) ;
+  } ;
+  myChangePassword = (event) => {
+    this.setState({password: event.target.value}) ;
+  } ;
   // Have form submission processing and requesting functions
 
   render (){
-    return (
-      <form >
-        <label>Username:</label><input type = "text" name = "username" />
-        <label>Password:</label><input type = "text" name = "password" />
-        <input type = "submit" value="Log In"/>
-      </form>
-    ) ;
+    if (this.state.loggedIn){
+      return <h3>Welcome {this.state.username}!</h3> ;
+    } else {
+      return (
+        <form onSubmit={this.mySubmitHandler}>
+          <label>Username:</label><input type = "text" onChange={this.myChangeUsername} /><br />
+          <label>Password:</label><input type = "text" onChange={this.myChangePassword} /><br />
+          <input type = "submit" value="Log In"/>
+        </form>
+      ) ;
+    }
   }
 }
 
 class SignUp extends React.Component{
-  // Have form submission processing and requesting functions
+  constructor(props){
+    super(props) ;
+    this.state = {username : "", password : "", confirm : ""} ;
+  }
+  mySubmitHandler = (event) => {
+    event.preventDefault() ;
+    axios.post("http://localhost/comp-333-hw3/index.php/user/create",
+      {username : this.state.username,p1 : this.state.password, p2 : this.state.confirm}).then((response) => 
+      {
+        this.setState({loggedIn : true}) ;
+        this.setState({username : response}) ;
+        // Determine if they are logged in or not based on the output.
+        // Return the corresponding message.
+      }).catch((error) => console.log(error)) ;
+  } ;
+  myChangeUsername = (event) => {
+    this.setState({username: event.target.value}) ;
+  } ;
+  myChangePassword = (event) => {
+    this.setState({password: event.target.value}) ;
+  } ;
+  myChangeConfirm = (event) => {
+    this.setState({confirm: event.target.value}) ;
+  } ;
 
   render (){
     return (
-      <form >
-        <label>Username:</label><input type = "text" name = "username" />
-        <label>Password:</label><input type = "text" name = "password" />
-        <label>Confirm Password:</label><input type = "text" name = "confirm" />
+      <form onSubmit={this.mySubmitHandler}>
+        <label>Username:</label><input type = "text" onChange={this.myChangeUsername}/><br/>
+        <label>Password:</label><input type = "text" onChange={this.myChangePassword}/><br/>
+        <label>Confirm Password:</label><input type = "text" onChange={this.myChangeConfirm}/><br/>
         <input type = "submit" value="Sign Up"/>
       </form>
     ) ;
@@ -40,22 +86,15 @@ class SignInUp extends React.Component{
     super(props);
     this.state = {status: 'LogIn'};
   }
-  changeToSignUp
 
   render() {
     switch (this.state.status) {
       case 'LogIn':
-        return (
-        <table>
-          <tr>
-            <td><LogIn /></td>
-            <td><button onClick={() => this.setState({status: 'SignUp'}) }>Create Account</button></td>
-          </tr>
-        </table>);
+        return <div><LogIn /><br /><button onClick={() => this.setState({status: 'SignUp'}) }>Create Account</button></div>;
       case 'SignUp':
-        return <SignUp />;
+        return <div><SignUp /><br /><button onClick={() => this.setState({status: 'LogIn'}) }>Return to Sign In</button></div>;
       default:
-        return <LogIn/>;
+        return <div><LogIn /><br /><button onClick={() => this.setState({status: 'SignUp'}) }>Create Account</button></div>;
     }
   }
 }
