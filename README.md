@@ -16,8 +16,8 @@ Create a new database titled 'music_db'.
 In this new database, click on the SQL tab and enter the following code into the editor:
 
 ```sql
-CREATE TABLE users (username VARCHAR(255) PRIMARY, password VARCHAR(255));
-CREATE TABLE ratings (id INT(11) PRIMAY AUTO_INCREMENT, username VARCHAR(255), artist VARCHAR(255), song VARCHAR(255), rating INT(1));
+CREATE TABLE users (username VARCHAR(255) PRIMARY KEY, password VARCHAR(255));
+CREATE TABLE ratings (id INT(11) PRIMARY KEY AUTO_INCREMENT, username VARCHAR(255), artist VARCHAR(255), song VARCHAR(255), rating INT(1));
 ```
 
 On your system, go to Applications->XAMPP->xamppfiles->htdocs. You may remove all files in it, and create a new folder titled comp-333-hw3. Place all files from this repo **EXCEPT the src directory** into comp-333-hw3.
