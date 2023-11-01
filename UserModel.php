@@ -35,15 +35,14 @@ class UserModel extends Database {
         $result = mysqli_stmt_get_result($stmt);
 
         $arr = mysqli_fetch_assoc($result);
-        //$pass_check = $arr['password'];
+        $pass_check = $arr['password'];
         $num = mysqli_num_rows($result);
         
         if($num > 0 && password_verify($password, $pass_check)){
             echo "login success";
         }
         else{
-            var_dump($arr) ;
-            //echo "wrong username or password";
+            echo "wrong username or password";
         }
     }
 }

@@ -25,9 +25,8 @@ class Layout extends React.Component{
       return (
         <div className = "app">
           <h1 className = "title">STARTUNES</h1>
-          <h3 className = "intro">Please login or sign up to add your ratings.</h3>
           <SignInUp />
-          <p className = "a">See what other users have rated:</p>
+          <p className = "a">Look at all of those ratings!</p>
           <Outlet />
         </div>
       ) ;
