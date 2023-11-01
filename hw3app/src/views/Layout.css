@@ -1,0 +1,25 @@
+.app{
+    padding: 0 10% 0 10%;
+}
+
+.title{
+    color: rebeccapurple;
+    text-align: center;
+    font-size: 48px;
+    background-color: yellow;
+}
+
+.intro{
+    font-size: 30px;
+    color: rebeccapurple;
+}
+
+.uname{
+    color: rebeccapurple;
+    font-size: 24px;
+}
+
+.a{
+    font-size: 24px;
+    color: rebeccapurple;
+}
