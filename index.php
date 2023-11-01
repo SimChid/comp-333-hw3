@@ -1,6 +1,7 @@
 <?php
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ; // Get the portion of the URL that has relevant information
+
 error_reporting(E_ALL); // For debugging Postman
 ini_set('display_errors', 1); // For debugging Postman
 header('Access-Control-Allow-Origin:*') ; // Allow requests from anywhere

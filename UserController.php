@@ -13,7 +13,8 @@ class UserController extends BaseController{
         $requestMethod = $_SERVER['REQUEST_METHOD'] ;
         
         if (strtoupper($requestMethod) == 'POST'){ // If we're POSTing (creating a new user)
-            $requestData = json_decode(file_get_contents("php://input"),true); // Decode json request
+            $requestData = json_decode(file_get_contents('php://input'),true); // Decode json request
+            print_r($requestData) ;
             $username = $requestData['username']; //set data to variables
             $p1 = $requestData['p1'];
             $p2 = $requestData['p2'];
@@ -29,9 +30,9 @@ class UserController extends BaseController{
 
     public function readAction(){
         $requestMethod = $_SERVER['REQUEST_METHOD'];
-
         if (strtoupper($requestMethod) == 'GET'){
-            $requestData = json_decode(file_get_contents("php://input"),true);
+            echo file_get_contents('php://input') ;
+            $requestData = json_decode(file_get_contents('php://input'),true);
             $username = $requestData['username'];
             $password = $requestData['password'];
             $userModel = new UserModel();
