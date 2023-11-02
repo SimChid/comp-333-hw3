@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import CreateSongRating from "./createSongRating";
 
 /*
 The class signInUp will render the portion of the page that controls signing in and
@@ -56,10 +57,13 @@ class SignInUp extends React.Component{
       }).catch((error) => console.log(error)) ; // Handle errors
   } ;
 
-
   render() {
     if (this.state.loggedIn){
-      return (<h3 className = "intro">Welcome {this.state.username}!</h3>) ;
+      return (
+        <div>
+          <h3 className = "intro">Welcome {this.state.username}!</h3>
+          <CreateSongRating username={this.state.username} />
+        </div>) ;
     } else {
       switch (this.state.preferredPage) {
         case 'Log In':
@@ -71,30 +75,28 @@ class SignInUp extends React.Component{
                 <label className = "uname">Password:</label><input type = "password" onChange={this.trackPassword} /><br />
                 <input type = "submit" value="Log In"/>
               </form>
-            </div>
-          );
+            </div>) ;
         case 'Sign Up':
-          return (
-            <form onSubmit={this.SignUpHandler}>
-              <p className = "intro">{this.state.information}</p><br />
-              <label className = "uname">Username:</label><input type = "text" onChange={this.trackUsername} /><br />
-              <label className = "uname">Password:</label><input type = "password" onChange={this.trackPassword} /><br />
-              <label className = "uname">Confirm:</label><input type = "password" onChange={this.trackConfirm} /><br />
-              <input type = "submit" value="Sign Up!"/>
-            </form>
-          );
+          return(  
+            <div>
+              <form onSubmit={this.SignUpHandler}>
+                <p className = "intro">{this.state.information}</p><br />
+                <label className = "uname">Username:</label><input type = "text" onChange={this.trackUsername} /><br />
+                <label className = "uname">Password:</label><input type = "password" onChange={this.trackPassword} /><br />
+                <label className = "uname">Confirm:</label><input type = "password" onChange={this.trackConfirm} /><br />
+                <input type = "submit" value="Sign Up!"/>
+              </form>
+            </div>) ;
         default:
-          return (
+          return(
             <div>
               <p className = "intro">{this.state.information}</p><br />
               <button onClick={() => this.setState({preferredPage : "Log In"})}>Log In</button>
               <button onClick={() => this.setState({preferredPage : "Sign Up"})}>Sign Up</button>
-            </div>
-          );
+            </div>) ;
       }
-
     } 
-  }
+  } 
 }
 
 export default SignInUp ;
