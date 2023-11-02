@@ -1,80 +1,6 @@
 import React from "react";
 import axios from "axios";
-
-class LogIn extends React.Component{
-  constructor(props){
-    super(props) ;
-    this.state = {username : "aaron",password : "",loggedIn : false} ;
-  }
-  
-  mySubmitHandler = (event) => {
-    event.preventDefault() ;
-    axios.get("http://localhost/comp-333-hw3/index.php/user/read",{username : this.state.username, password : this.state.password}).then((response) => {
-      console.log(response.data) ;
-      // Determine if they are logged in or not based on the output.
-      // Return the corresponding message.
-    }).catch((error) => console.log(error)) ;
-  } ;
-  myChangeUsername = (event) => {
-    this.setState({username: event.target.value}) ;
-  } ;
-  myChangePassword = (event) => {
-    this.setState({password: event.target.value}) ;
-  } ;
-  // Have form submission processing and requesting functions
-
-  render (){
-    if (this.state.loggedIn){
-      return <h3>Welcome {this.state.username}!</h3> ;
-    } else {
-      return (
-        <form onSubmit={this.mySubmitHandler}>
-          <label className = "uname">Username:</label><input type = "text" onChange={this.myChangeUsername} /><br />
-          <label className = "uname">Password:</label><input type = "password" onChange={this.myChangePassword} /><br />
-          <input type = "submit" value="Log In"/>
-        </form>
-      ) ;
-    }
-  }
-}
-
-class SignUp extends React.Component{
-  constructor(props){
-    super(props) ;
-    this.state = {username : "", password : "", confirm : ""} ;
-  }
-  mySubmitHandler = (event) => {
-    event.preventDefault() ;
-    axios.post("http://localhost/comp-333-hw3/index.php/user/create",
-      {username : this.state.username,p1 : this.state.password, p2 : this.state.confirm}).then((response) => 
-      {
-        this.setState({loggedIn : true}) ;
-        this.setState({username : response}) ;
-        // Determine if they are logged in or not based on the output.
-        // Return the corresponding message.
-      }).catch((error) => console.log(error)) ;
-  } ;
-  myChangeUsername = (event) => {
-    this.setState({username: event.target.value}) ;
-  } ;
-  myChangePassword = (event) => {
-    this.setState({password: event.target.value}) ;
-  } ;
-  myChangeConfirm = (event) => {
-    this.setState({confirm: event.target.value}) ;
-  } ;
-
-  render (){
-    return (
-      <form onSubmit={this.mySubmitHandler}>
-        <label className = "uname">Username:</label><input type = "text" onChange={this.myChangeUsername}/><br/>
-        <label className = "uname">Password:</label><input type = "password" onChange={this.myChangePassword}/><br/>
-        <label className = "uname">Confirm Password:</label><input type = "password" onChange={this.myChangeConfirm}/><br/>
-        <input type = "submit" value="Sign Up"/>
-      </form>
-    ) ;
-  }
-}
+import CreateSongRating from "./createSongRating";
 
 /*
 The class signInUp will render the portion of the page that controls signing in and
@@ -84,19 +10,98 @@ a button that can be clicked to replace the sign in form with a sign up form
 class SignInUp extends React.Component{
   constructor(props) {
     super(props);
-    this.state = {status: 'LogIn'};
+    this.state = {
+      loggedIn : false, 
+      preferredPage : "",
+      username : "", 
+      password : "", 
+      confirm : "", 
+      information : "Please login or sign up to add your ratings."} ;
   }
+  trackUsername = (event) => { // Update the username state on the fly
+    this.setState({username: event.target.value}) ;
+  } ;
+  trackPassword = (event) => { // Update the password state on the fly
+    this.setState({password: event.target.value}) ;
+  } ;
+  trackConfirm = (event) => { // Update the confirm password state on the fly
+    this.setState({confirm: event.target.value}) ;
+  } ;
+
+
+  LogInHandler = (event) => { // Send the HTTP request to log in
+    event.preventDefault() ;
+    axios.post("http://localhost/comp-333-hw3/index.php/user/read", // Request
+    { // Info
+      username : this.state.username,
+      password : this.state.password
+    }).then((response) => { // What to do with the response
+      if (response.data === "login success"){
+        this.setState({loggedIn : true})
+      } else {
+        this.setState({information : "Incorrect username or password"})
+      }
+    }).catch((error) => console.log(error)) ; // Handle errors
+  } ;
+
+  SignUpHandler  = (event) => { // Send the HTTP request to sign up
+    event.preventDefault() ;
+    axios.post("http://localhost/comp-333-hw3/index.php/user/create", // Request
+      {username : this.state.username,p1 : this.state.password, p2 : this.state.confirm}).then((response) => // Info
+      { // What to do with the response
+        if (response.data === "user created"){
+          this.setState({loggedIn : true})
+        } else {
+          this.setState({information : response.data})
+        }
+      }).catch((error) => console.log(error)) ; // Handle errors
+  } ;
 
   render() {
-    switch (this.state.status) {
-      case 'LogIn':
-        return <div><LogIn /><br /><button onClick={() => this.setState({status: 'SignUp'}) }>Create Account</button></div>;
-      case 'SignUp':
-        return <div><SignUp /><br /><button onClick={() => this.setState({status: 'LogIn'}) }>Return to Sign In</button></div>;
-      default:
-        return <div><LogIn /><br /><button onClick={() => this.setState({status: 'SignUp'}) }>Create Account</button></div>;
-    }
-  }
+    if (this.state.loggedIn){
+      return (
+        <div>
+          <table>
+            <tr>
+              <td><h3 className = "intro">Welcome {this.state.username}!</h3></td>
+              <td><button type="button" onClick={() => {this.setState({preferredPage : "",loggedIn : false})}}>Log Out</button></td>
+            </tr>
+          </table>
+          <CreateSongRating username={this.state.username} />
+        </div>) ;
+    } else {
+      switch (this.state.preferredPage) {
+        case 'Log In':
+          return (
+            <div>
+              <p className = "intro">{this.state.information}</p><br />
+              <form onSubmit={this.LogInHandler}>
+                <label className = "uname">Username:</label><input type = "text" onChange={this.trackUsername} /><br />
+                <label className = "uname">Password:</label><input type = "password" onChange={this.trackPassword} /><br />
+                <input type = "submit" value="Log In"/>
+              </form>
+            </div>) ;
+        case 'Sign Up':
+          return(  
+            <div>
+              <form onSubmit={this.SignUpHandler}>
+                <p className = "intro">{this.state.information}</p><br />
+                <label className = "uname">Username:</label><input type = "text" onChange={this.trackUsername} /><br />
+                <label className = "uname">Password:</label><input type = "password" onChange={this.trackPassword} /><br />
+                <label className = "uname">Confirm:</label><input type = "password" onChange={this.trackConfirm} /><br />
+                <input type = "submit" value="Sign Up!"/>
+              </form>
+            </div>) ;
+        default:
+          return(
+            <div>
+              <p className = "intro">{this.state.information}</p><br />
+              <button onClick={() => this.setState({preferredPage : "Log In"})}>Log In</button>
+              <button onClick={() => this.setState({preferredPage : "Sign Up"})}>Sign Up</button>
+            </div>) ;
+      }
+    } 
+  } 
 }
 
 export default SignInUp ;
