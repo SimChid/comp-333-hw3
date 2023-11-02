@@ -61,7 +61,12 @@ class SignInUp extends React.Component{
     if (this.state.loggedIn){
       return (
         <div>
-          <h3 className = "intro">Welcome {this.state.username}!</h3>
+          <table>
+            <tr>
+              <td><h3 className = "intro">Welcome {this.state.username}!</h3></td>
+              <td><button type="button" onClick={() => {this.setState({preferredPage : "",loggedIn : false})}}>Log Out</button></td>
+            </tr>
+          </table>
           <CreateSongRating username={this.state.username} />
         </div>) ;
     } else {
