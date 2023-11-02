@@ -23,9 +23,11 @@ CREATE TABLE ratings (id INT(11) PRIMARY KEY AUTO_INCREMENT, username VARCHAR(25
 On your system, go to Applications->XAMPP->xamppfiles->htdocs. You may remove all files in it, and create a new folder titled comp-333-hw3. Place all files from this repo **EXCEPT the src directory** into comp-333-hw3.
 
 ## frontend:
+Please note that src is the only file from the react app. If the full app directory is downloaded with the zip file, then the app won't load.
+
 Download the latest version of [Node.js](https://nodejs.org/en/download/current) from the official site.
 
-Ensure you have node and npm installed with the following commands:
+Ensure you have node and npm installed with the following commands in your terminal:
 ```bash
 node -v
 ```
@@ -42,17 +44,17 @@ In the preferred directory, run the following command to start the StarTunes app
 ```bash
 npx create-react-app startunes
 ```
+please note it does not need to be titled "startunes", but that is the name of our app. Consistency is key sometimes.
 
-Move to the startunes directory and replade the src folder with the one in the repo.
+cd into to the startunes directory and replade the src folder with the one in the repo.
 In startunes, run the following commands
 
 ```bash
 npm install axios
 ```
 ```bash
-npm install reactdom
+npm install react-router-dom
 ```
-**^This has to be double checked**
 
 Finally, run the app with
 ```bash
