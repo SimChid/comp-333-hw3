@@ -3,7 +3,7 @@
 import { Outlet} from "react-router-dom";
 import SignInUp from "../SignInUp";
 import React from "react";
-import createSongRating from "../createSongRating";
+
 import './Layout.css';
 
 class Layout extends React.Component{
@@ -17,7 +17,6 @@ class Layout extends React.Component{
       <div className = "app">
         <h1 className = "title">STARTUNES</h1>
         <h3 className = "intro">Welcome {this.state.username}!</h3>
-        <createSongRating />
         <Outlet />
       </div>
       ) ;
@@ -25,9 +24,7 @@ class Layout extends React.Component{
       return (
         <div className = "app">
           <h1 className = "title">STARTUNES</h1>
-          <h3 className = "intro">Please login or sign up to add your ratings.</h3>
           <SignInUp />
-          <p className = "a">See what other users have rated:</p>
           <Outlet />
         </div>
       ) ;
