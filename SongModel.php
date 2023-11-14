@@ -36,16 +36,20 @@ class SongModel extends Database {
         }
     }
     public function readSong($_ID){
+        $conn = mysqli_connect("localhost", "root", "", "music_db");
+        
         $sql = "SELECT * FROM ratings WHERE id = ?";
-        $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param('i',$_ID);
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('i', $_ID);
         $stmt->execute();
-        $stmt->bind_result($id,$username,$artist,$song,$rating);
-        if ($stmt->affected_rows == 1){
-            echo $artist;
-            echo $song;
-            echo $rating;
+        $stmt->bind_result($id, $username, $artist, $song, $rating);
+        
+        if ($stmt->fetch()) {
+            $arr = array('username' => $username, 'artist' => $artist, 'song' => $song, 'rating' => $rating);
+            echo json_encode($arr);
         }
+    
+        $conn->close();
     }
     public function updateSong($id,$artist,$song,$rating){
         $sql = "UPDATE ratings SET artist = ?, song = ?, rating = ? WHERE id = ?";
