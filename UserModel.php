@@ -39,10 +39,10 @@ class UserModel extends Database {
         $num = mysqli_num_rows($result);
         
         if($num > 0 && password_verify($password, $pass_check)){
-            echo "login success";
+            echo json_encode("login success");
         }
         else{
-            echo "wrong username or password";
+            echo json_encode("wrong username or password");
         }
     }
 }

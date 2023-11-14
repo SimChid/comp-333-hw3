@@ -18,7 +18,7 @@ class UserController extends BaseController{
             $p1 = $requestData['p1'];
             $p2 = $requestData['p2'];
             if ($p1 != $p2){
-                echo "Passwords must match";
+                echo json_encode("passwords must match");
             }else{
                 $h_password = password_hash($p1, PASSWORD_DEFAULT);
                 $userModel = new UserModel() ; // Create a UserModel to do the SQL query
