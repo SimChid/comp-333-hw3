@@ -53,7 +53,7 @@ class SongModel extends Database {
         $stmt->bind_param('ssii',$artist,$song,$rating,$id);
         $stmt->execute();
         if ($stmt->affected_rows == 1){
-            echo 'Song Updated';
+            echo json_encode('song updated');
         }
     }
     public function deleteSong($id){
@@ -62,7 +62,7 @@ class SongModel extends Database {
         $stmt->bind_param('i',$id);
         $stmt->execute();
         if ($stmt->affected_rows == 1){
-            echo 'Song Deleted';
+            echo json_encode('song deleted');
         }
     }
 }
