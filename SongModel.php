@@ -69,6 +69,18 @@ class SongModel extends Database {
             echo json_encode('song deleted');
         }
     }
+    public function sortSongs($val){
+        $conn = mysqli_connect("localhost","root","","music_db") ;
+        if ($val === 'rating'){
+            $sql = "SELECT * FROM ratings ORDER BY $val DESC";
+        }else{
+            $sql = "SELECT * FROM ratings ORDER BY $val";
+        }
+        $result = $conn->query($sql);
+        $rows = $result->fetch_all(MYSQLI_ASSOC);
+        echo json_encode($rows) ;
+        $conn->close();
+    }
 }
 
 ?>

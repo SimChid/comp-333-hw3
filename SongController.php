@@ -78,6 +78,16 @@ class SongController extends BaseController{
             $songModel->deleteSong($id); //unsure what variable to put here
         }
     }
+
+    public function sortAction(){
+        $requestMethod = $_SERVER['REQUEST_METHOD'];
+        if (strtoupper($requestMethod) == 'GET'){
+            $requestData = json_decode(file_get_contents("php://input"),true);
+            $val = $requestData['val']; //What the user wants to sort by (song, artist, rating, etc)
+            $songModel = new SongModel();
+            $songModel->sortSongs($val);
+        }
+    }
 }
 
 ?>
